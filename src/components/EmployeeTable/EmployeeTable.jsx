@@ -33,7 +33,7 @@ class EmployeeTable extends Component {
     super();
     this.state = {
       dataSource: [],
-      loading: false
+      loading: true
     };
   }
 
@@ -57,9 +57,17 @@ class EmployeeTable extends Component {
   }
 
   render() {
+    const { dataSource, loading } = this.state;
+
     return (
       <div className="employee-table-wrapper">
-        <Table columns={columns} dataSource={this.state.dataSource} bordered/>
+        <Table
+          columns={columns}
+          dataSource={dataSource}
+          loading={loading}
+          pagination={{ defaultPageSize: 20 }}
+          bordered
+        />
       </div>
     );
   }
