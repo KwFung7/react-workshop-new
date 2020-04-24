@@ -8,12 +8,17 @@
     padding: 1rem 5%;
     position: fixed;
     z-index: 10;
+    transition: background-color .2s ease-in;
 
     .header-wrapper {
       display: flex;
       justify-content: space-between;
       align-items: center;
       font-size: 1.5rem;
+    }
+
+    .title {
+      transition: color .2s ease-in;
     }
 
     &.white-theme {
