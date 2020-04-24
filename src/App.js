@@ -2,14 +2,14 @@ import React from 'react';
 import './App.css';
 import 'antd/dist/antd.css';
 
-import Header from "./components/Header/Header";
-import EmployeeTable from './components/EmployeeTable/EmployeeTable';
+import EmployeePage from "./pages/EmployeePage/EmployeePage";
+import LoginPage from "./pages/LoginPage/LoginPage";
 
 function App() {
   return (
     <div>
-      <Header />
-      <EmployeeTable />
+      {/*<EmployeePage />*/}
+      <LoginPage />
     </div>
   );
 }
