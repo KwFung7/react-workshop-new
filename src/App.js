@@ -6,17 +6,23 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-d
 import EmployeePage from "./pages/EmployeePage/EmployeePage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 
+const path = {
+  root: '/',
+  employees: '/employees',
+  login: '/login'
+};
+
 function App() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/">
-          <Redirect to="/employees"/>
+        <Route exact path={path.root}>
+          <Redirect to={path.employees} />
         </Route>
-        <Route path="/employees">
+        <Route path={path.employees} >
           <EmployeePage />
         </Route>
-        <Route path="/login">
+        <Route path={path.login} >
           <LoginPage />
         </Route>
         <Route render={() => <div>404 Not Found</div>} />
