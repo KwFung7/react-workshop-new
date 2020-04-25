@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import './EmployeeTable.scss';
-import axios from 'axios';
 import _ from 'lodash';
+import { connect } from 'react-redux';
+import { getEmployeeList } from '../../core/actions/employeeAction';
 
 import { Table } from 'antd';
 
@@ -29,41 +30,21 @@ const columns = [
 ];
 
 class EmployeeTable extends Component {
-  constructor(props) {
-    super();
-    this.state = {
-      dataSource: [],
-      loading: true
-    };
-  }
 
   componentDidMount() {
-    axios.get(process.env.REACT_APP_EMPLOYEE_ENDPOINT)
-      .then((res) => {
-        if (!_.isEmpty(res.data)) {
-          const { data = {} } = res.data;
-          this.setState({
-            dataSource: data,
-            loading: false
-          });
-        } else {
-          this.setState({ loading: false });
-        }
-      })
-      .catch((err) => {
-        this.setState({ loading: false });
-        console.log(err);
-      });
+    if (_.isEmpty(this.props.employeeList)) {
+      this.props.getEmployeeList();
+    }
   }
 
   render() {
-    const { dataSource, loading } = this.state;
+    const { employeeList, loading } = this.props;
 
     return (
       <div className="employee-table-wrapper">
         <Table
           columns={columns}
-          dataSource={dataSource}
+          dataSource={employeeList}
           loading={loading}
           pagination={{ defaultPageSize: 20 }}
           bordered
@@ -73,4 +54,22 @@ class EmployeeTable extends Component {
   }
 }
 
-export default EmployeeTable;
+const mapStateToProps = (state) => {
+  const { employee } = state;
+
+  return {
+    employeeList: employee.employeeList,
+    loading: employee.loading
+  }
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getEmployeeList: () => { dispatch(getEmployeeList()) }
+  }
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(EmployeeTable);
