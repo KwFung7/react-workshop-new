@@ -42,12 +42,12 @@ class LoginPage extends Component {
           onFinishFailed={this.onFinishFailed}
         >
           <Form.Item
-            label="Username"
-            name="username"
+            label="Email"
+            name="Email"
             rules={[
               {
                 required: true,
-                message: 'Please input your username!',
+                message: 'Please input your email!',
               },
             ]}
           >
