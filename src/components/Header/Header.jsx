@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import './Header.scss';
+import { signOut, updateLoginStatus } from '../../core/actions/authAction';
 
 import { Button } from 'antd';
 import { LogoutOutlined } from '@ant-design/icons';
 
 class Header extends Component {
-  constructor(props) {
+  constructor() {
     super();
     this.state = {
       whiteTheme: false
@@ -18,7 +20,13 @@ class Header extends Component {
     });
   };
 
+  handleLogout = () => {
+    const { signOut, redirectToLogin } = this.props;
+    signOut(redirectToLogin);
+  };
+
   componentDidMount() {
+    this.props.updateLoginStatus();
     window.addEventListener('scroll', this.handleScroll);
   }
 
@@ -32,11 +40,14 @@ class Header extends Component {
         <div className={`top-header ${this.state.whiteTheme ? 'white-theme' : ''}`}>
           <div className="header-wrapper">
             <div className="title">IES Training</div>
-            <div className="header-menu">
-              <Button type="danger" icon={<LogoutOutlined />} size="large">
-                Logout
-              </Button>
-            </div>
+            {
+              this.props.login &&
+              <div className="header-menu">
+                <Button type="danger" icon={<LogoutOutlined />} size="large" onClick={this.handleLogout}>
+                  Logout
+                </Button>
+              </div>
+            }
           </div>
         </div>
         <h1 className="bottom-header">
@@ -47,4 +58,22 @@ class Header extends Component {
   }
 }
 
-export default Header;
+const mapStateToProps = (state) => {
+  const { auth = {} } = state;
+
+  return {
+    login: auth.login
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signOut: (callback) => { dispatch(signOut(callback)); },
+    updateLoginStatus: () => { dispatch(updateLoginStatus()); }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Header);

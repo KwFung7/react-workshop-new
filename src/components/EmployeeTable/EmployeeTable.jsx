@@ -42,6 +42,7 @@ class EmployeeTable extends Component {
 
     return (
       <div className="employee-table-wrapper">
+        <h3>DUMMY DATA</h3>
         <Table
           columns={columns}
           dataSource={employeeList}

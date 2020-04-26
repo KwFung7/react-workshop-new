@@ -1,17 +1,22 @@
+import _ from 'lodash';
 import * as types from './actionTypes';
 
-export const signInWithEmailAndPassword = (email, password) => {
+export const signInWithEmail = (email, password, callback) => {
   return (dispatch) => {
     dispatch({
       type: types.LOGIN_LOADING
     });
 
-    firebase.auth().signInWithEmailAndPassword(email, password)
+    window.firebase.auth().signInWithEmailAndPassword(email, password)
       .then((res) => {
         dispatch({
           type: types.LOGIN_SUCCESS,
           payload: res
         });
+
+        if (_.isFunction(callback)) {
+          callback();
+        }
       })
       .catch((error) => {
         dispatch({
@@ -22,18 +27,21 @@ export const signInWithEmailAndPassword = (email, password) => {
   };
 };
 
-export const signOut = () => {
+export const signOut = (callback) => {
   return (dispatch) => {
     dispatch({
       type: types.LOGOUT_LOADING
     });
 
-    firebase.auth().signOut()
-      .then((res) => {
+    window.firebase.auth().signOut()
+      .then(() => {
         dispatch({
-          type: types.LOGOUT_SUCCESS,
-          payload: res
+          type: types.LOGOUT_SUCCESS
         });
+
+        if (_.isFunction(callback)) {
+          callback();
+        }
       })
       .catch((error) => {
         dispatch({
@@ -42,4 +50,24 @@ export const signOut = () => {
         });
       });
   };
+};
+
+export const updateLoginStatus = () => {
+  return (dispatch) => {
+    window.firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        dispatch({
+          type: types.UPDATE_LOGIN_STATUS,
+          login: true,
+          user
+        });
+      } else {
+        dispatch({
+          type: types.UPDATE_LOGIN_STATUS,
+          login: false,
+          user: {}
+        })
+      }
+    });
+  }
 };

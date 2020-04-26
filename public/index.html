@@ -29,9 +29,22 @@
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <script src="/__/firebase/7.14.2/firebase-app.js"></script>
-    <script src="/__/firebase/7.14.2/firebase-auth.js"></script>
-    <script src="/__/firebase/init.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-auth.js"></script>
+    <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyBoJoK5wFq0WOvX5RZXtVLphMmSWSRXL_4",
+        authDomain: "react-workshop-2997d.firebaseapp.com",
+        databaseURL: "https://react-workshop-2997d.firebaseio.com",
+        projectId: "react-workshop-2997d",
+        storageBucket: "react-workshop-2997d.appspot.com",
+        messagingSenderId: "762599527052",
+        appId: "1:762599527052:web:150d79eaf5741a7e9861a9"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+    </script>
     <div id="root"></div>
     <!--
       This HTML file is a template.

@@ -19,11 +19,13 @@ function App() {
         <Route exact path={path.root}>
           <Redirect to={path.employees} />
         </Route>
-        <Route path={path.employees} >
-          <EmployeePage />
+        <Route path={path.employees} render={({ history }) =>
+          <EmployeePage redirectToLogin={() => { history.push(path.login); }} />
+        }>
         </Route>
-        <Route path={path.login} >
-          <LoginPage />
+        <Route path={path.login} render={({ history }) =>
+          <LoginPage redirectToRoot={() => { history.push(path.root); }} />
+        }>
         </Route>
         <Route render={() => <div>404 Not Found</div>} />
       </Switch>

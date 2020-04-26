@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { Form, Input, Button, Checkbox } from 'antd';
+import { connect } from "react-redux";
+import _ from 'lodash';
 import './LoginPage.scss';
 
 import Header from '../../components/Header/Header';
+import { signInWithEmail } from "../../core/actions/authAction";
 
 const layout = {
   labelCol: {
@@ -21,12 +24,21 @@ const tailLayout = {
 
 class LoginPage extends Component {
   onFinish = values => {
-    console.log('Success:', values);
+    const { signInWithEmail, redirectToRoot } = this.props;
+    signInWithEmail(values.email, values.password, redirectToRoot);
   };
 
   onFinishFailed = errorInfo => {
     console.log('Failed:', errorInfo);
   };
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const { login, loading, redirectToRoot } = this.props;
+
+    if (!_.isEqual(prevProps, this.props) && login && !loading) {
+      redirectToRoot();
+    }
+  }
 
   render() {
     return (
@@ -43,7 +55,7 @@ class LoginPage extends Component {
         >
           <Form.Item
             label="Email"
-            name="Email"
+            name="email"
             rules={[
               {
                 required: true,
@@ -82,4 +94,22 @@ class LoginPage extends Component {
   }
 }
 
-export default LoginPage;
+const mapStateToProps = (state) => {
+  const { auth = {} } = state;
+
+  return {
+    login: auth.login,
+    loading: auth.loading
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signInWithEmail: (email, password, callback) => { dispatch(signInWithEmail(email, password, callback)); },
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LoginPage);

@@ -4,15 +4,15 @@ import {
   LOGIN_SUCCESS,
   LOGOUT_LOADING,
   LOGOUT_FAILURE,
-  LOGOUT_SUCCESS
+  LOGOUT_SUCCESS, UPDATE_LOGIN_STATUS
 } from '../actions/actionTypes';
+import _ from 'lodash';
 
 const initialState = {
-  userName: '',
   login: false,
-  loading: false,
-  error: {},
-  res: {}
+  loading: true,
+  info: {},
+  error: {}
 };
 
 export const auth = (state = initialState, action) => {
@@ -27,7 +27,7 @@ export const auth = (state = initialState, action) => {
         ...state,
         login: true,
         loading: false,
-        res: action.payload
+        info: action.payload
       };
     case LOGIN_FAILURE:
       return {
@@ -45,13 +45,24 @@ export const auth = (state = initialState, action) => {
         ...state,
         login: false,
         loading: false,
-        res: action.payload
+        info: {}
       };
     case LOGOUT_FAILURE:
       return {
         ...state,
         loading: false,
         error: action.error
+      };
+    case UPDATE_LOGIN_STATUS:
+      const info = _.isEmpty(action.user)
+        ? {}
+        : { ...state.info, user: action.user };
+
+      return {
+        ...state,
+        login: action.login,
+        loading: false,
+        info
       };
     default:
       return state;
