@@ -32,13 +32,23 @@ class LoginPage extends Component {
     console.log('Failed:', errorInfo);
   };
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    const { login, loading, error, redirectToRoot } = this.props;
+  handleRedirection = () => {
+    const { login, loading, redirectToRoot } = this.props;
 
+    if (login && !loading) {
+      redirectToRoot();
+    }
+  };
+
+  componentDidMount() {
+    this.handleRedirection();
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
     if (!_.isEqual(prevProps, this.props)) {
-      if (login && !loading) {
-        redirectToRoot();
-      }
+      const { loading, error } = this.props;
+
+      this.handleRedirection();
 
       if (!_.isEmpty(error) && !_.isEmpty(error.message) && !loading) {
         message.error(error.message);

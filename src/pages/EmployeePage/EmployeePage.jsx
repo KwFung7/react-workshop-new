@@ -7,11 +7,21 @@ import _ from "lodash";
 
 class EmployeePage extends Component {
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
+  handleRedirection = () => {
     const { login, loading, redirectToLogin } = this.props;
 
-    if (!_.isEqual(prevProps, this.props) && !login && !loading) {
+    if (!login && !loading) {
       redirectToLogin();
+    }
+  };
+
+  componentDidMount() {
+    this.handleRedirection();
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (!_.isEqual(prevProps, this.props)) {
+      this.handleRedirection();
     }
   }
 
