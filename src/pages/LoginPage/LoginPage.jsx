@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button, Checkbox, message } from 'antd';
 import { connect } from "react-redux";
 import _ from 'lodash';
 import './LoginPage.scss';
@@ -33,10 +33,16 @@ class LoginPage extends Component {
   };
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { login, loading, redirectToRoot } = this.props;
+    const { login, loading, error, redirectToRoot } = this.props;
 
-    if (!_.isEqual(prevProps, this.props) && login && !loading) {
-      redirectToRoot();
+    if (!_.isEqual(prevProps, this.props)) {
+      if (login && !loading) {
+        redirectToRoot();
+      }
+
+      if (!_.isEmpty(error) && !_.isEmpty(error.message) && !loading) {
+        message.error(error.message);
+      }
     }
   }
 
@@ -99,7 +105,8 @@ const mapStateToProps = (state) => {
 
   return {
     login: auth.login,
-    loading: auth.loading
+    loading: auth.loading,
+    error: auth.error
   };
 };
 

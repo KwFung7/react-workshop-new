@@ -21,7 +21,8 @@ export const employee = (state = initialState, action) => {
      return {
        ...state,
        employeeList: action.payload,
-       loading: false
+       loading: false,
+       error: {}
      };
    case GET_EMPLOYEE_FAILURE:
      return {

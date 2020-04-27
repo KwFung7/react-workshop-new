@@ -27,7 +27,8 @@ export const auth = (state = initialState, action) => {
         ...state,
         login: true,
         loading: false,
-        info: action.payload
+        info: action.payload,
+        error: {}
       };
     case LOGIN_FAILURE:
       return {
@@ -45,7 +46,8 @@ export const auth = (state = initialState, action) => {
         ...state,
         login: false,
         loading: false,
-        info: {}
+        info: {},
+        error: {}
       };
     case LOGOUT_FAILURE:
       return {
