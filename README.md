@@ -103,7 +103,7 @@ import { LogoutOutlined } from '@ant-design/icons';
 
 1. Develop EmployeeTable component in /components folder with [Ant Design Table component](https://ant.design/components/table/),
 using dummy list data and style the table whatever you like at this moment
-2. Using axios library to call [Dummy API](http://dummy.restapiexample.com/api/v1/employees) with GET method and then store into component state
+2. Using axios library to call [Dummy API](https://my-json-server.typicode.com/KwFung7/react-workshop-new/employees) with GET method and then store into component state
 3. Bind the state to JSX
 
 ### Update Header component
