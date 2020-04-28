@@ -12,11 +12,9 @@ export const getEmployeeList = () => {
     axios.get(process.env.REACT_APP_EMPLOYEE_ENDPOINT)
       .then((res) => {
         if (!_.isEmpty(res.data)) {
-          const { data = [] } = res.data;
-
           dispatch({
             type: types.GET_EMPLOYEE_SUCCESS,
-            payload: data
+            payload: res.data
           });
         } else {
           dispatch({
